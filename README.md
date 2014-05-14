@@ -2,12 +2,11 @@ fast-static
 ===========
 Russian: https://github.com/Hkey1/fast-static/blob/master/README_ru-ru.md
 
-Node.js module. Simple to use build automation for frontend files.
-You don't need to write specials build files or run build.
+fast-static is a node.js module, a simple build automation tool for front-end files.
+You do not need to write special build files in order to use it.
 
-When env=production this module use in memory cash.
-That make fast-static faster then default Express/Connect static middleware.
-
+In addition to that fast-static will enable in memory cache when ``` env=production ```.
+This makes fast-static faster than default Express/Connect static middleware.
 
 
 ##Features
@@ -17,7 +16,7 @@ That make fast-static faster then default Express/Connect static middleware.
 * gzip
 * browser cashing (ETag)
 
-When env=production
+When ``` env=production ```
 * minify css, js and html
 * join files
 * inserts small images into css
@@ -35,10 +34,8 @@ Like static middleware in Express/Connect
     var fastStatic= require('fast-static');
     app.use(onRoot,fastStatic.use(root,options));// app.use(onRoot,app.static(root,options));
 ```
-Options is not required param.
-fastStatic have options presets based on process.env.NODE_ENV.
-About options in the end of doc.
-
+Options is an optional parameter which is described in details below.
+fast-static has options presets based on process.env.NODE_ENV value.
 
 Example
 ```javascript
@@ -47,12 +44,12 @@ Example
     app.use('/static',fastStatic.use('./static'));
     app.listen(process.env.PORT);
 ```
-##Answer
-Answer some file
+##Anser
+returns parsed file
 ```javascript
     fastStatic.answer(req,res,pathToFile);
 ```
-For example you nead on homepage send ./static/intro/index.jade
+For example output processed ./static/intro/index.jade
 ```javascript
     var app = require('express')();
     var fastStatic= require('fast-static');
@@ -63,7 +60,7 @@ For example you nead on homepage send ./static/intro/index.jade
     app.listen(process.env.PORT);
 ```
 ##USE tag
-Tag to simply listing of files.
+Preprocess tag for including fast-static content.
 
 ```html
 <USE>
@@ -92,10 +89,10 @@ Tag to simply listing of files.
     <USE>
         #this is comment
 
-        # ! on begin of string tells echo string
+        # Use ! starting string to output text
         ! Hello world from Use tag <br />
 
-        # you can use %host% constant
+        # Syntax for constants %host%
         ! host=%host% <br />
 
         # you can use env switcher [value if env=development|value if env=production]
@@ -113,22 +110,22 @@ Tag to simply listing of files.
 ```
 
 ##Warnings
-###Pathes are rel to file path in file system
-If you use fastStatic.answer you nead to add base tag.
+###Pathes are relative to a file path in the file system
+If you use fastStatic.answer you nead to add a ``` base ``` tag.
 
 Example, if you send on homepage /static/intro/index.html, you nead to add in this file
 ```html
     <base href="http://<use>!%host%</use>/static/intro/" />
 ```
 
-###On env=production cash is on
+###On env=production cache is on
 In this mode file changes will not lead to changes in the responses.
-You nead restart service on call fastStatic.dropCash().
+You nead to restart service by calling ``` fastStatic.dropCash() ```.
 
-###Dont use on big files
-Memory is limiting.
-If you have directory with big files (>1-2MB) use other middleware (for example app.static()) on this dir;
-Move large files to some dir and use other static middleware.
+###Dont use for big files
+Memory is limited.
+If you have directory with big files (>1-2MB) use other middleware (for example app.static()) for that directory;
+Move large files to another directory or use other static middlewares.
 
 Example:
 ```javascript
@@ -159,7 +156,7 @@ To disable filter you nead to set options.filters[filterName]=false
 To enable filter you nead to set options.filters[filterName]=filterOptions
 
 
-This filters are by default is ON
+Filters below are ON by default
 
 Filter          |                                                       | url
 -------------   | ----------------                                      |-------------
@@ -172,7 +169,7 @@ md              | compiles md                                           | https:
 use             | compiles USE tag                                      |
 
 
-This filters are is ON only on Production by default
+This filters are ON only for Production environment
 
 Filter          |                                                       | url
 -------------   | ----------------                                      |-------------
@@ -184,9 +181,9 @@ inline.img.css  | insert small images into css                          |
 
 
 ###Filters options
-All filters have exts and order options.
-* exts= list of file exts. For example "html,htm"
-* order= int
+Each filter has exts and order options.
+* exts= list of file extentions. For example "html,htm"
+* order= integer order
 
 
 ###Options.filters['inline.img.css']
